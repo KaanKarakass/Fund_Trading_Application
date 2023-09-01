@@ -1,0 +1,89 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="/template.xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:define name="content">
+<div style="margin-top: 30px;">
+        <h1>Müşteri Tanımlama</h1>
+    <h:form>
+        <div class="accordion-wrapper">
+            <!-- Açılır Panel: Yeni Kayıt Ekleme -->
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title="Yeni Kayıt Ekle">
+                	 <div style="display: flex; justify-content: center;">   
+               			<p:panel id="yeniKayitPanel" style="width: 850px;border:none;" styleClass="FILTERPANEL">
+	               			<p:panelGrid columns="2" style="display: flex; justify-content: center;" >
+								<p:panelGrid columns="2" columnClasses="ui-widget-header XACTIONCENTRE" style="display: flex; justify-content: center;">
+									<p:outputLabel value="Müşteri Adı" ></p:outputLabel>
+					 				<p:inputText id="name" value="#{customerPageBean.name}" required="true" requiredMessage="Müşterinin adını giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+					
+		
+									<p:outputLabel value="Müşteri Soyadı"></p:outputLabel>
+						 			<p:inputText id="surname" value="#{customerPageBean.surname}" required="true" requiredMessage="Müşterinin soyadını giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+					
+						
+									<p:outputLabel value="TC No"></p:outputLabel>
+									<p:inputText id="tc" value="#{customerPageBean.tc}" required="true"
+						requiredMessage="tc no giriniz" style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+					
+									<p:outputLabel value="Adres"></p:outputLabel>
+									<p:inputText id="address" value="#{customerPageBean.address}" required="true" requiredMessage="Adres bilgisini giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+						
+						<p:outputLabel value="Bakiye"></p:outputLabel>
+									<p:inputText id="bakiye" value="#{customerPageBean.balance}" required="true"
+						requiredMessage="Bakiye bilgisi giriniz" style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+							</p:panelGrid>
+				
+						</p:panelGrid>
+					<f:facet name="footer">
+						<div style="display: flex; justify-content: center;">
+								<p:commandButton value="kaydet" action="#{customerPageBean.save}" style="width: 120px" update="yeniKayitPanel" process="@form" icon="fa fa-recycle">
+    							<p:ajax update="yeniKayitPanel" process="@form" />
+								</p:commandButton>
+								<div style="width: 50px;"></div>
+							<p:commandButton value="temizle" action="#{customerPageBean.clean}" style="width: 120px" update="yeniKayitPanel" process="@form" icon="fa fa-recycle"/>
+						</div>
+					</f:facet>
+					</p:panel>
+				</div>
+           </p:tab>
+        </p:accordionPanel>
+            
+            <!--Açılır Panel: Listele  --> 
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title="Listele">
+                
+           		<div style="display: flex; justify-content: center;">     
+						<p:commandButton value="yenile" actionListener="#{customerPageBean.listCustomers}" style="width: 120px; margin-bottom: 20px;" update="customers" process="@this" icon="fa fa-recycle"/>
+		   		</div>
+		   		
+				<p:dataTable id="customers" var="veri" value="#{customerPageBean.customers}" paginator="true" rows="5" paginatorPosition="bottom" widgetVar="customersTable"
+                     emptyMessage="No customers found with given criteria">
+                    
+                    	
+           		 	<p:column headerText="Portföy No" sortBy="#{veri.p_ID}" filterBy="#{veri.p_ID}" filterMatchMode="contains">
+                  		<h:outputText value="#{veri.p_ID}" />
+                 	</p:column>
+                 	<p:column headerText="Ad"  sortBy="#{veri.name}" filterBy="#{veri.name}" filterMatchMode="contains">
+                 	 	<h:outputText value="#{veri.name}" />
+                 	</p:column>
+                 	<p:column headerText="Soyad" sortBy="#{veri.surname}" filterBy="#{veri.surname}" filterMatchMode="contains">
+                  	 	<h:outputText value="#{veri.surname}" />
+                   	</p:column> 
+                   	<p:column headerText="Bakiye" sortBy="#{veri.balance}" filterBy="#{veri.balance}" filterMatchMode="contains">
+                  	 	<h:outputText value="#{veri.balance}" />
+                   	</p:column>
+                 </p:dataTable>
+                </p:tab> 
+            </p:accordionPanel>
+        </div>
+    </h:form>
+    </div>
+    </ui:define> 
+</ui:composition>

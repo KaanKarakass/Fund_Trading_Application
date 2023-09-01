@@ -1,0 +1,121 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="/template.xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:define name="content">
+    <div style="margin-top: 30px;">
+        <h1>Fon Alım-Satım</h1>
+      <h:form>
+       <div class="accordion-wrapper">
+            <!-- Açılır Panel -->
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title="Fon Alım-Satım">
+                	 <div style="display: flex; justify-content: center;">   
+               			<p:panel id="yeniKayitPanel" style="width: 850px;border:none;" styleClass="FILTERPANEL">
+	               			<p:panelGrid columns="2" style="display: flex; justify-content: center;" >
+								<p:panelGrid columns="2" columnClasses="ui-widget-header XACTIONCENTRE" style="display: flex; justify-content: center;">
+								
+									<p:outputLabel value="Portfoy No" ></p:outputLabel>
+					 				<p:inputText id="portfolio_no" value="#{fundTradingPageBean.portfolio_no}" required="true" requiredMessage="Portföy No Giriniz"
+								    style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);">
+								    <p:ajax event="change" listener="#{fundTradingPageBean.balanceControl}" update="price balance" />
+								</p:inputText>
+								
+						 	<p:outputLabel value="İşlem Tarihi: "></p:outputLabel>  
+							<p:calendar value="#{provisionPageBean.operationDate}" inputStyle="width: 150px" pattern="dd.MM.yyyy" navigator="false" showOn="none" disabled="true" />
+							
+                          
+                          
+                          <p:outputLabel for="@next" value="İşlem Tipi"/>
+                <p:selectOneMenu id="process_type" value="#{fundTradingPageBean.process_type}">
+                    <f:selectItem itemLabel="İşlem Tipi" itemValue=""/>
+                    <f:selectItem itemLabel="Al" itemValue="AL"/>
+                    <f:selectItem itemLabel="Sat" itemValue="SAT"/>
+                   
+            
+                </p:selectOneMenu>
+                
+					<p:outputLabel value="Fon Kodu"></p:outputLabel>
+									<p:inputText id="fund_no" value="#{fundTradingPageBean.fund_no}" required="true" requiredMessage="Fon Kodunu Giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" >
+						<p:ajax event="change" listener="#{fundTradingPageBean.balanceControl}" update="price balance" />
+						</p:inputText>
+									 
+						<p:outputLabel value="Miktar"></p:outputLabel>
+							<p:inputText id="piece" value="#{fundTradingPageBean.piece}" required="true" requiredMessage="Miktarı Giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" >
+						<p:ajax event="change" listener="#{fundTradingPageBean.totalPrice}" update="cash" />
+						</p:inputText>
+						
+						
+						<p:outputLabel value="Fiyat"></p:outputLabel>
+						 			<p:inputText id="price" value="#{fundTradingPageBean.price}" required="true" requiredMessage="Fiyat Giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);"
+						 disabled="true"  />
+						 
+						<p:outputLabel value="Müşteri Bakiyesi"></p:outputLabel>
+								 		<p:inputText id="balance" value="#{fundTradingPageBean.balance}" required="true" requiredMessage="Bakiye"
+								style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" 
+								 disabled="true" />
+								 
+							<p:outputLabel value="Tutar"></p:outputLabel>
+						 			<p:inputText id="cash" value="#{fundTradingPageBean.cash}" required="true" requiredMessage="Tutar Giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" 
+						 disabled="true" />
+						
+							</p:panelGrid>
+				
+						</p:panelGrid>
+					<f:facet name="footer">
+						<div style="display: flex; justify-content: center;">
+							<p:commandButton value="Kaydet" actionListener="#{fundTradingPageBean.fundTrade}" style="width: 120px" update="yeniKayitPanel" process="@form" icon="fa fa-recycle"/>
+								<div style="width: 50px;"></div> <!-- Boşluk eklemek için boş div -->
+							<p:commandButton value="Temizle" actionListener="#{fundTradingPageBean.cleanFund}" style="width: 120px" update="yeniKayitPanel" process="@form" icon="fa fa-recycle"/>
+						</div>
+					</f:facet>
+					</p:panel>
+				</div>
+           </p:tab>
+        </p:accordionPanel>
+            
+            <!-- Listele  --> 
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title="Listele">
+                
+		   		<div style="display: flex; justify-content: center;">     
+						<p:commandButton value="yenile" actionListener="#{fundTradingPageBean.listTransaction}" style="width: 120px; margin-bottom: 20px;" update="transactions" process="@this" icon="fa fa-recycle"/>
+		   		</div>
+		   		
+				<p:dataTable id="transactions" var="veri" value="#{fundTradingPageBean.transactions}" paginator="true" rows="5" paginatorPosition="bottom" widgetVar="transactionsTable"
+                     emptyMessage="No found with given criteria">
+                    
+  
+           		 		
+           		 	<p:column headerText="Portföy No" sortBy="#{veri.porfolio_no}" filterBy="#{veri.porfolio_no}" filterMatchMode="contains">
+                  		<h:outputText value="#{veri.porfolio_no}" />
+                 	</p:column>
+                 	
+                 	<p:column headerText="İşlem Tarihi" sortBy="#{veri.process_date}" filterBy="#{veri.process_date}" filterMatchMode="contains">
+                  		<h:outputText value="#{veri.process_date}" />
+                 	</p:column>
+                 	
+                 	<p:column headerText="Fon Adı"  sortBy="#{veri.fund_name}" filterBy="#{veri.fund_name}" filterMatchMode="contains">
+                 	 	<h:outputText value="#{veri.fund_name}" />
+                 	</p:column>
+                 	<p:column headerText="Adet" sortBy="#{veri.piece}" filterBy="#{veri.piece}" filterMatchMode="contains">
+                  	 	<h:outputText value="#{veri.piece}" />
+                   	</p:column> 
+                   	<p:column headerText="İşlem Tipi" sortBy="#{veri.process_type}" filterBy="#{veri.process_type}" filterMatchMode="contains">
+                  	 	<h:outputText value="#{veri.process_type}" />
+                   	</p:column> 
+                 </p:dataTable>
+                </p:tab> 
+            </p:accordionPanel>
+        </div>
+      </h:form> 
+      </div>
+    </ui:define> 
+</ui:composition>

@@ -1,0 +1,99 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="/template.xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:define name="content">
+<div style="margin-top: 30px;">
+        <h1>Kullanıcı Tanımlama</h1>
+    <h:form>
+        <div class="accordion-wrapper">
+            <!-- Açılır Panel: Yeni Kayıt Ekleme -->
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title="Yeni Kayıt Ekle">
+                	 <div style="display: flex; justify-content: center;">   
+               			<p:panel id="yeniKayitPanel" style="width: 850px;border:none;" styleClass="FILTERPANEL">
+	               			<p:panelGrid columns="2" style="display: flex; justify-content: center;" >
+								<p:panelGrid columns="2" columnClasses="ui-widget-header XACTIONCENTRE" style="display: flex; justify-content: center;">
+									<p:outputLabel value="Adı" ></p:outputLabel>
+					 				<p:inputText id="p_name" value="#{personelPageBean.p_name}" required="true" requiredMessage="Adınızı giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+					
+		
+									<p:outputLabel value="Soyadı"></p:outputLabel>
+						 			<p:inputText id="p_surname" value="#{personelPageBean.p_surname}" required="true" requiredMessage="Kullanıcı soyadını giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+					
+						
+									<p:outputLabel value="Email"></p:outputLabel>
+									<p:inputText id="p_mail" value="#{personelPageBean.p_mail}" required="true"
+						requiredMessage="Mail giriniz" style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+					
+									<p:outputLabel value="Kullanıcı Adı"></p:outputLabel>
+									<p:inputText id="p_username" value="#{personelPageBean.p_username}" required="true" requiredMessage="Kullanıcı Adını giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+						
+						<p:outputLabel value="Şifre"></p:outputLabel>
+									<p:inputText id="p_password" value="#{personelPageBean.p_password}" required="true"
+						requiredMessage="Şifre bilgisi giriniz" style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+						
+						<p:outputLabel for="@next" value="Rol"/>
+							<p:selectOneMenu id="option" value="#{personelPageBean.p_role}">
+                    			<f:selectItem itemLabel="Rol Seçiniz" itemValue=""/>
+                    			<f:selectItem itemLabel="Admin" itemValue="Admin"/>
+                    		<f:selectItem itemLabel="Ürün Yöneticisi" itemValue="Ürün Yöneticisi"/>
+                    		<f:selectItem itemLabel="Pörtföy Yöneticisi" itemValue="Pörtföy Yöneticisi"/>
+                    		<f:selectItem itemLabel="Operasyon" itemValue="Operasyon"/>
+                    		<f:selectItem itemLabel="Ürün Yöneticisi Yardımcısı" itemValue="Ürün Yöneticisi Yardımcısı"/>
+                    		<f:selectItem itemLabel="Analist" itemValue="Analist"/>
+                    		<f:selectItem itemLabel="Pazarlama Ve Satış" itemValue="Pazarlama Ve Satış"/>
+                    </p:selectOneMenu>
+						
+				</p:panelGrid>
+						</p:panelGrid>
+					<f:facet name="footer">
+						<div style="display: flex; justify-content: center;">
+								<p:commandButton value="kaydet" action="#{personelPageBean.save}" style="width: 120px" update="yeniKayitPanel" process="@form" icon="fa fa-recycle">
+    							<p:ajax update="yeniKayitPanel" process="@form" />
+								</p:commandButton>
+								<div style="width: 50px;"></div>
+							<p:commandButton value="temizle" action="#{personelPageBean.clean}" style="width: 120px" update="yeniKayitPanel" process="@form" icon="fa fa-recycle"/>
+						</div>
+					</f:facet>
+					</p:panel>
+				</div>
+           </p:tab>
+        </p:accordionPanel>
+            
+            <!--Açılır Panel: Listele  --> 
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title="Listele">
+                
+           		<div style="display: flex; justify-content: center;">     
+						<p:commandButton value="yenile" actionListener="#{personelPageBean.listPersonels}" style="width: 120px; margin-bottom: 20px;" update="personels" process="@this" icon="fa fa-recycle"/>
+		   		</div>
+		   		
+				<p:dataTable id="personels" var="veri" value="#{personelPageBean.personels}" paginator="true" rows="5" paginatorPosition="bottom" widgetVar="personelsTable"
+                     emptyMessage="No personels found with given criteria">
+                    
+                    	
+           		 	<p:column headerText="Kullanıcı Adı" sortBy="#{veri.p_username}" filterBy="#{veri.p_username}" filterMatchMode="contains">
+                  		<h:outputText value="#{veri.p_username}" />
+                 	</p:column>
+                 	<p:column headerText="Rol"  sortBy="#{veri.p_role}" filterBy="#{veri.p_role}" filterMatchMode="contains">
+                 	 	<h:outputText value="#{veri.p_role}" />
+                 	</p:column>
+                 	<p:column headerText="Mail" sortBy="#{veri.p_mail}" filterBy="#{veri.p_mail}" filterMatchMode="contains">
+                  	 	<h:outputText value="#{veri.p_mail}" />
+                   	</p:column> 
+                   
+                 </p:dataTable>
+                </p:tab> 
+            </p:accordionPanel>
+        </div>
+    </h:form>
+    </div>
+    </ui:define> 
+</ui:composition>

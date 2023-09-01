@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+ 
+    <script>                 
+    function updateUsername(username) {
+        document.getElementById('usernameOutput').textContent = "Merhaba " + username;
+    }
+
+    function showTotalValue(chart) {
+        var data = chart.data;
+        var totalValue = data.datasets[0].data.reduce((a, b) => a + b, 0);
+        var ctx = chart.ctx;
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = '20px Arial';
+        ctx.fillStyle = '#000';
+        
+        var centerX = (chart.width - chart.chartArea.left - chart.chartArea.right) / 2 + chart.chartArea.left;
+        var centerY = (chart.height - chart.chartArea.top - chart.chartArea.bottom) / 2 + chart.chartArea.top;
+
+        ctx.fillText(totalValue, centerX, centerY);
+    }
+
+    </script>
+    
+    <ui:define name="content">
+        <h:outputText id="usernameOutput" value="Merhaba " style="font-weight: bold; font-size: 24px;"/>
+        <script>
+            updateUsername("#{sessionScope.username}");
+        </script> 
+        <h3>Eureka Likit Fon Alım Satım Platformuna Hoşgeldiniz!</h3> 
+       
+		<div class="grid">
+            <div class="col-12 lg:col-6 xl:col-4">
+                <div class="card">
+               
+                  <p:donutChart model="#{homePageBean.donutModel}" style="width: 100%; height: 500px;" extender="chartExtender">
+				  </p:donutChart>
+    				<h4 style="  text-align: center; margin-top: 10px; font-size: 20px; font-weight: bold; ">Bugün En Çok İşlem Yapılan Fonlar</h4>
+                </div>
+            </div>
+        </div>
+    </ui:define> 
+</ui:composition> 

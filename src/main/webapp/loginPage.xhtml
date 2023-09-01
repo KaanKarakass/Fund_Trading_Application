@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Giriş Sayfası</title>
+    <style> 
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+		 color: white;
+		 opacity: 1; /* Firefox */
+	}
+	::-ms-input-placeholder { /* Microsoft Edge */
+ 		color: white;
+	}	
+	input::-webkit-input-placeholder {
+        color: white !important; /* Değiştirmek istediğiniz renk */
+    }
+        body {
+            font-family: "Montserrat";
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            height: 100vh; 
+            background: #264ECA;
+            position: relative;
+            height: 100vh;
+        }
+        .login-box {
+            text-align: center;
+            background-color: #264ECA;
+            border-radius: 5px;
+            margin-bottom:80px;
+        }
+ 
+        .logo {
+            width: 350px;
+            mix-blend-mode: multiply;
+        }
+        
+        .input-field {
+            width: 340px;
+            height: 60px; 
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 300;
+            font-size: 20px;
+            line-height: 20px;
+            border-radius: 4px;
+            border: 1px solid #FFFFFF;
+            display: flex; 
+            background: #264ECA;
+            margin-bottom: 10px;
+            text-align: left;    
+            color: #FFFFFF;
+        } 
+ 
+        
+        .login-button {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            color: #2148C0;
+            background: #FFFFFF;
+            border:  1px solid #264ECA;
+            border-radius: 4px;
+            padding: 12px 150px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="login-box">
+        <p:graphicImage value="/Logo.png" class="logo"/>
+        <h:form>
+          
+         <span class="ui-input-icon-right" >
+        <i class="pi pi-user" style="color:white;"/>
+       <h:inputText id="username" value="#{loginPageBean.username}" class="input-field" /> 
+       <p:watermark for="username" value="Kullanıcı Adı" style="color: white;"/>
+    	</span>
+    
+    
+    <div style="margin-bottom: 20px; ">
+                <span class="ui-input-icon-right">
+        		<i class="pi pi-lock" style="color:white;"/>
+      			<h:inputSecret id="password" value="#{loginPageBean.password}" class="input-field"/>
+      			<p:watermark for="password" value="Şifre" style="color: white;" />
+    </span> 
+            </div>
+            <h:commandButton value="Giriş" styleClass="login-button" action="#{loginPageBean.login}" />
+        </h:form>
+    </div>
+</h:body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Eureka</title>
+    <style>
+        body {
+            font-family: "Montserrat";
+            margin: 0px; background-color: white; background-size: cover;
+        }
+        .menu {
+            width: 250px;
+            background-color: #00024C; 
+            position: fixed;
+            height: 100%;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .header {
+            background-color: white;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+
+	body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-icon 
+	{
+	color: white;
+	} 
+ 	body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link .ui-menuitem-text
+	{
+	color: white;
+	}
+  	body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link:hover .ui-menuitem-text  {
+        color: #2aacfa;  
+    }   
+	body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link:hover .ui-menuitem-icon  {
+        color: #2aacfa;  
+    }       
+    </style>
+</h:head>
+
+<h:body>
+
+<script>
+    function confirmLogout() {
+        if (confirm("Çıkış yapmak istediğinize emin misiniz?")) {
+            window.location.href = 'http://localhost:8080/loginPage.xhtml';
+        }
+    }
+    
+     function updateUsername(username) {
+            document.getElementById('usernameOutput').textContent = "Merhaba " + username;
+        }
+ </script>
+
+<div id="header">
+	<div class="card">
+		<h:form style="height: 100%;"> 
+			<div class="card" style="right: 30px; margin-top:19px;position: fixed; ">
+				<p:commandButton type="button" icon="pi pi-home" styleClass="rounded-button ui-button-info ui-button-outlined" onclick="window.location.href = 'http://localhost:8080/homePage.xhtml';" /> 
+    			<span style="margin-left: 15px;"></span>
+    			<p:commandButton type="button" icon="pi pi-sign-out" styleClass="rounded-button ui-button-info ui-button-outlined" onclick="confirmLogout();"  ajax="false" /> 
+    			
+			</div>
+
+ 
+ 		</h:form>
+	</div>
+</div>
+<div>
+	<h:form style="height: 100%;width: 225px;margin-top:0;position: fixed;left: 0;padding-top: 19px;background-color:#00024C;z-index: 1;">
+			<div class="grid" style="width: 225px;background-color: #00024C;  "> 
+       		 	<div class="card"> 
+          	    	<p:avatar styleClass="mr-2" rendered="true" style="left:17px;" >
+               		<p:graphicImage value="/Logo2.png"/>
+                	<h3 style="left:50px; color:white;">Eureka</h3>
+            		</p:avatar> 
+            		<p:divider/>
+            	</div>
+    		</div>
+		<div id="navigation">	
+		<div class="card" >
+				<p:menu toggleable="true" style="width: 225px; background-color:#00024C;text-color:white; border: none">
+ 					<p:menuitem value="Kullanıcı Tanımla" icon="pi pi-th-large" url="/personelPage.xhtml"/>
+ 					<p:menuitem value="Müşteri Tanımla" icon="pi pi-user-plus" style="width: 224px;" url="/customerPage.xhtml" />
+					<p:menuitem value="Provizyon/Havale" icon="pi pi-credit-card" style="width: 224px;" url="/provisionPage.xhtml"/>	
+					<p:menuitem value="Fon Tanımlama" icon="pi pi-box" style="width: 224px;" url ="/fundIdentificationPage.xhtml"/>
+					<p:menuitem value="Takvim" icon="pi pi-calendar" style="width: 224px;"  url ="/calendarPage.xhtml"/>
+					<p:menuitem value="Fon Alım-Satım" icon="pi pi-shopping-cart" style="width: 224px;" url ="/fundtrading.xhtml"/>/>
+					<p:menuitem value="Fon Fiyatı" icon="pi pi-chart-pie" url ="/fundpricePage.xhtml" style="width: 224px; "/>
+				</p:menu> 
+				<p:spacer height="100px"/>
+				<p style="color:white; margin-left: 20px;" > Pdf Raporu</p>
+				<p style="color:#A7A9C0;margin-left: 20px;"> Günlük PDF Raporu</p> 
+				<p:commandButton style="margin-left:20px; width:150px;" value="İndir" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="pi pi-arrow-down" styleClass="mr-2">
+            		<p:fileDownload value="#{fileDownloadView.file}"/>
+            	</p:commandButton>
+				
+				<p:divider/>
+				<div style="display: flex; align-items: center;">
+    				<p style="color: #F5F9FF; margin-left: 20px;margin-right: 10px">Dark Mode</p>
+    				<p:toggleSwitch value="#{ThemeBean.darkTheme}" onLabel="Dark" offLabel="Light" onIcon="pi pi-moon" offIcon="pi pi-sun" onchange="toggleTheme();"/>
+				</div>
+		</div>
+		</div>
+		</h:form>
+</div>
+<p:spacer height="20px"/>
+
+    <div class="content">
+        <ui:insert name="content" />
+    </div>
+</h:body>
+</html>

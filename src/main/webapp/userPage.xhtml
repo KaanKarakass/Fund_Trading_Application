@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/template.xhtml">             
+<ui:define name="content">
+<div style="margin-top: 30px;">
+        <h1>Kullanıcı Tanımlama</h1>
+        <h:form id="form">
+            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" />
+
+            <p:tabView>
+                <p:tab title="Personel Yeni Kayıt" >
+                    <div style="display: flex; justify-content: center;">
+                        <div style="display: flex; justify-content: space-between; width: 1000px;">
+                            <!-- Sol Alan: Ad, Soyad, Mail, Pozisyon -->
+                           	<p:panelGrid columns="2" >
+                                <p:outputLabel value="Ad" />
+                                <p:inputText id="kullaniciAdi" value="#{userPageBean.musteriadi}" required="true"
+                                    requiredMessage="Kullanıcı adı giriniz" style="width: 250px;" />
+
+                                <p:outputLabel value="Soyad" />
+                                <p:inputText id="kullaniciSoyadi" value="#{userPageBean.musterisoyadi}" required="true"
+                                    requiredMessage="soyad giriniz" style="width: 250px;" />
+
+                                <p:outputLabel value="Mail" />
+                                <p:inputText id="kullaniciadres" value="#{userPageBean.adres}" required="true"
+                                    requiredMessage="Adres giriniz" style="width: 250px;" />
+                            </p:panelGrid>
+
+                            <!-- Sağ Alan: Kullanıcı Adı, Şifre, Yetkilendirme -->
+                            <p:panelGrid columns="2" >
+                            
+                            <p:outputLabel value="Pozisyon" />
+                                <p:selectOneMenu id="positions" value="#{selectOneMenuView.selectedOption}">
+                    				<f:selectItem itemLabel="Pozisyon seçiniz" itemValue=""/>
+                    				<f:selectItem itemLabel="Admin" itemValue="Option1"/>
+                    				<f:selectItem itemLabel="Ürün Yöneticisi" itemValue="Option2"/>
+                    				<f:selectItem itemLabel="Portföy Yöneticisi" itemValue="Option3"/>
+                   			 		<f:selectItem itemLabel="Operasyon" itemValue="Option3"/>
+                    				<f:selectItem itemLabel="Ürün Yöneticisi Yardımcısı" itemValue="Option4"/>
+                    				<f:selectItem itemLabel="Analist" itemValue="Option5"/>
+                    				<f:selectItem itemLabel="Pazarlama ve Satış" itemValue="Option6"/>
+                    				</p:selectOneMenu>
+                    				
+                    				
+                                <p:outputLabel value="Kullanıcı Adı" />
+                                <p:inputText id="username" value="#{userPageBean.musteriadi}" required="true"
+                                    requiredMessage="Kullanıcı adı giriniz" style="width: 250px;" />
+
+                                <p:outputLabel value="Şifre" />
+                                <p:password id="feedback" value="#{passwordView.password2}" feedback="true" required="true"
+                                    toggleMask="true" redisplay="true" style="width: 250px;" />
+
+                      
+                              
+                              <f:facet name="footer">
+								<div style="display: flex; justify-content: center;">
+							 		<p:commandButton value="Kaydet" actionListener="#{userPageBean.temizle()}" style="width: 100px"  process="@this" icon="fa fa-recycle"/>
+				   					<div style="width: 50px;"></div> <!-- Boşluk eklemek için boş div -->
+		    				 		<p:commandButton value="Temizle" actionListener="#{userPageBean.temizle()}" style="width: 100px"  process="@this" icon="fa fa-recycle"/>
+								</div>
+							</f:facet>
+                         
+                            </p:panelGrid>
+                       </div>
+                    </div>
+                </p:tab>
+            </p:tabView>
+            
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title=" Personelleri Listele">
+                    <div style="display: flex; justify-content: flex-end;">
+                        <p:commandButton value="Yenile" actionListener="#{userPageBean.filterTemizle()}"
+                            style="width: 120px; margin-bottom: 20px;" update="veriListesi" process="@this" icon="fa fa-recycle" />
+                    </div>
+                    
+                    <p:dataTable id="veriListesi" var="veri" value="#{userPageBean.veriListe}" paginator="true" rows="5"
+                            paginatorPosition="bottom" widgetVar="usersTable" emptyMessage="No users found with given criteria"
+                            filteredValue="#{dtFilterView.filteredUsers3}"
+                            globalFilterFunction="#{dtFilterView.globalFilterFunction}">
+                        <f:facet name="header">
+                            <div style ="display: flex; justify-content: flex-end;">
+                                <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:300px"
+                                    placeholder="Search all fields using global function" />
+                            </div>
+                        </f:facet>
+                        
+                        <p:column headerText="Kullanıcı Adı" sortBy="#{user.name}" filterBy="#{user.name}" filterMatchMode="contains">
+                            <h:outputText value="#{veritabanı.name}" />
+                        </p:column>
+                        <p:column headerText="Poziyon"  sortBy="#{user.name}" filterBy="#{user.name}" filterMatchMode="contains">
+                            <h:outputText value="#{user.name}" />
+                        </p:column>
+                        <p:column headerText="Mail" sortBy="#{user.name}" filterBy="#{user.name}" filterMatchMode="contains">
+                            <h:outputText value="#{user.name}" />
+                        </p:column>
+                       
+                    </p:dataTable>
+                </p:tab>
+            </p:accordionPanel>
+        </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

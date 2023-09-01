@@ -1,0 +1,79 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="/template.xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core">
+ 
+<ui:define name="content">
+<div style="margin-top: 30px;">
+        <h1>Fon Fiyatı</h1>
+    <h:form>
+        <div class="accordion-wrapper">
+            <!-- Açılır Panel: Yeni Kayıt Ekleme -->
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title="Fon Fiyatı">
+                	 <div style="display: flex; justify-content: center;">   
+               			<p:panel id="yeniKayitPanel" style="width: 850px;border:none;" styleClass="FILTERPANEL">
+	               			<p:panelGrid columns="2" style="display: flex; justify-content: center;" >
+								<p:panelGrid columns="2" columnClasses="ui-widget-header XACTIONCENTRE" style="display: flex; justify-content: center;">
+									<p:outputLabel value="Fon Adı" ></p:outputLabel>
+					 				<p:inputText id="fundName" value="#{fundPricePageBean.fundName}" required="true" requiredMessage="Fon adını giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+					
+		
+									<p:outputLabel value="Fon Kodu"></p:outputLabel>
+						 			<p:inputText id="fundNo" value="#{fundPricePageBean.fundNo}" required="true" requiredMessage="Fon kodunu giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+					
+						
+									<p:outputLabel value="Fon Fiyatı"></p:outputLabel>
+									<p:inputText id="fundPrice" value="#{fundPricePageBean.fundPrice}" required="true"
+						requiredMessage="Fon fiyat Giriniz" style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+			
+							</p:panelGrid>
+				
+						</p:panelGrid>
+					<f:facet name="footer">
+						<div style="display: flex; justify-content: center;">
+								<p:commandButton value="kaydet" action="#{fundPricePageBean.fundSave}" style="width: 120px" update="yeniKayitPanel" process="@form" icon="fa fa-recycle">
+    							<p:ajax update="yeniKayitPanel" process="@form" />
+								</p:commandButton>
+								<div style="width: 50px;"></div>
+							<p:commandButton value="temizle" action="#{fundPricePageBean.fundClean}" style="width: 120px" update="yeniKayitPanel" process="@form" icon="fa fa-recycle"/>
+						</div>
+					</f:facet>
+					</p:panel>
+				</div>
+           </p:tab>
+        </p:accordionPanel>
+            
+            <!--Açılır Panel: Listele  --> 
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title="Listele">
+                
+           		<div style="display: flex; justify-content: center;">     
+						<p:commandButton value="yenile" actionListener="#{fundPricePageBean.listFunds}" style="width: 120px; margin-bottom: 20px;" update="funds" process="@this" icon="fa fa-recycle"/>
+		   		</div>
+		   		
+				<p:dataTable id="funds" var="veri" value="#{fundPricePageBean.funds}" paginator="true" rows="5" paginatorPosition="bottom" widgetVar="fundsTable"
+                     emptyMessage="No fund found with given criteria">
+                    
+                    	
+           		 	<p:column headerText="Fon Adı" sortBy="#{veri.fund_name}" filterBy="#{veri.fund_name}" filterMatchMode="contains">
+                  		<h:outputText value="#{veri.fund_name}" />
+                 	</p:column>
+                 	<p:column headerText="Fon Kodu"  sortBy="#{veri.fund_no}" filterBy="#{veri.fund_no}" filterMatchMode="contains">
+                 	 	<h:outputText value="#{veri.fund_no}" />
+                 	</p:column>
+                 	<p:column headerText="Fon Fiyatı" sortBy="#{veri.fund_price}" filterBy="#{veri.fund_price}" filterMatchMode="contains">
+                  	 	<h:outputText value="#{veri.fund_price}" />
+                   	</p:column> 
+                 </p:dataTable>
+                </p:tab> 
+            </p:accordionPanel>
+        </div>
+    </h:form>
+    </div>
+    </ui:define> 
+</ui:composition>

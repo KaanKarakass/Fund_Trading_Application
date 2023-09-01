@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/template.xhtml">     
+<ui:define name="content">        
+	<div style="margin-top: 30px;">
+ 		<h1>Havale / Provizyon </h1> 
+<h:form id="form">
+            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" />
+          <p:tabView>
+            <p:tab title="Yeni Kayıt">
+                	 <div style="display: flex; justify-content: center;">   
+               			<p:panel id="newRegistrationPanel" style="width: 850px;border:none;" styleClass="FILTERPANEL">
+	               			<p:panelGrid columns="2" style="display: flex; justify-content: center;" >
+								<p:panelGrid columns="2" columnClasses="ui-widget-header XACTIONCENTRE" style="display: flex; justify-content: center;">
+								
+								
+									<p:outputLabel value="Portfoy No" ></p:outputLabel>
+					 				<p:inputText id="portfolio_no" value="#{provisionPageBean.portfolio_no}" required="true" requiredMessage="Portföy No Giriniz"
+								    style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);">
+								    <p:ajax event="change" listener="#{provisionPageBean.balanceControl}" update="balance" />
+								</p:inputText>
+
+						<p:outputLabel value="İşlem Tarihi: "></p:outputLabel>  
+							<p:calendar value="#{provisionPageBean.operationDate}" inputStyle="width: 150px" pattern="dd.MM.yyyy" navigator="false" showOn="none" />
+							
+ 						<p:outputLabel value="Müşteri Bakiyesi"></p:outputLabel>
+								 		<p:inputText id="balance" value="#{provisionPageBean.balance}" required="true" requiredMessage="Bakiye"
+								style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" 
+								 disabled="true" />
+ 
+ 
+						<p:outputLabel for="@next" value="İşlem Tipi"/>
+							<p:selectOneMenu id="option" value="#{provisionPageBean.process_type}">
+                    			<f:selectItem itemLabel="İşlem Tipi Seçiniz" itemValue=""/>
+                    			<f:selectItem itemLabel="Havale" itemValue="Havale"/>
+                    		<f:selectItem itemLabel="Provizyon" itemValue="Provizyon"/>
+                    </p:selectOneMenu>
+		
+									<p:outputLabel value="İşlem Tutarı : "></p:outputLabel>
+									<p:inputText id="amount" value="#{provisionPageBean.amount}" required="true"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" validatorMessage="Sadece sayı girişi yapabilirsiniz">
+						<p:keyFilter regEx="/^\d*\.?\d*$/"  /> 
+						</p:inputText>
+						
+							</p:panelGrid>
+				
+						</p:panelGrid>
+					<f:facet name="footer">
+						<div style="display: flex; justify-content: center;">
+								<p:commandButton value="Kaydet" action="#{provisionPageBean.save}" style="width: 120px" update="newRegistrationPanel" process="@form" icon="fa fa-recycle">
+    							<p:ajax update="newRegistrationPanel" process="@form" />
+								</p:commandButton>
+								<div style="width: 50px;"></div>
+							<p:commandButton value="Temizle" action="#{provisionPageBean.clean}" style="width: 120px" update="newRegistrationPanel" process="@form" icon="fa fa-recycle"/>
+						</div>
+					</f:facet>
+					</p:panel>
+				</div>
+           </p:tab>
+       </p:tabView>
+            
+            <p:spacer height="40px"/>
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title="Listele">
+                    <div style="display: flex; justify-content: flex-end;">
+                        <p:commandButton value="Yenile" actionListener="#{provisionPageBean.ListProcess}"
+                            style="width: 120px; margin-bottom: 20px;" update="veriListesi" process="@this" icon="fa fa-recycle" />
+                    </div>
+                    
+                    <p:dataTable id="veriListesi" var="veri" value="#{provisionPageBean.provisionTransfers}" paginator="true" rows="5"
+                            paginatorPosition="bottom" widgetVar="usersTable" emptyMessage="No users found with given criteria">
+                   
+                        
+                        <p:column headerText="Portfolyo No" sortBy="#{veri.portfolio_no}" filterBy="#{veri.portfolio_no}" filterMatchMode="contains">
+                            <h:outputText value="#{veri.portfolio_no}" />
+                        </p:column>
+                        
+                          <p:column headerText="İşlem Tarihi" sortBy="#{veri.transaction_date}" filterBy="#{veri.transaction_date}" filterMatchMode="exact">
+                            <h:outputText value="#{veri.transaction_date}" />
+                			<f:facet name="filter">
+                   				 <p:datePicker selectionMode="range" onchange="PF('provisionsTable').filter()" pattern="dd/MM/yyyy" mask="99/99/9999" />
+               				 </f:facet>
+            			</p:column>
+            			
+            			  <p:column headerText="İşlem Tipi" sortBy="#{veri.process_type}" filterBy="#{veri.process_type}" filterMatchMode="contains">
+                            <h:outputText value="#{veri.process_type}" />
+                        </p:column>
+                          <p:column headerText="İşlem Tutarı" sortBy="#{veri.amount}" filterBy="#{veri.amount}" filterMatchMode="contains">
+                            <h:outputText value="#{veri.amount}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+            </p:accordionPanel>
+        </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

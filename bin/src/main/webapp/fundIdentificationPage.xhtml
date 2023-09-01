@@ -1,0 +1,91 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="/template.xhtml"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:define name="content">
+	<div style="margin-top: 30px;">
+ 		<h1>Fon Tanımlama </h1>
+    <h:form>
+        <div class="accordion-wrapper">
+            <!-- Açılır Panel: Yeni Fon Ekleme -->
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title="Yeni Fon Tanımla">
+                	 <div style="display: flex; justify-content: center;">   
+               			<p:panel id="yeniKayitPanel" style="width: 850px;border:none;" styleClass="FILTERPANEL">
+	               			<p:panelGrid columns="2" style="display: flex; justify-content: center;" >
+								<p:panelGrid columns="2" columnClasses="ui-widget-header XACTIONCENTRE" style="display: flex; justify-content: center;">
+								
+									<p:outputLabel value="Fon Adı" ></p:outputLabel>
+					 				<p:inputText id="fundName" value="#{fundIdentificationPageBean.fundName}" required="true" requiredMessage="Fon adını giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+					
+		
+									<p:outputLabel value="Fon Kodu"></p:outputLabel>
+						 			<p:inputText id="fundNo" value="#{fundIdentificationPageBean.fundNo}" required="true" requiredMessage="Fon kodunu giriniz"
+						style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+					
+						
+									<p:outputLabel value="Fon Türü"></p:outputLabel>
+									<p:inputText id="fundType" value="#{fundIdentificationPageBean.fundType}" required="true"
+						requiredMessage="Fon Türünü Giriniz" style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+			
+			
+									<p:outputLabel value="Para Birimi"></p:outputLabel>
+									<p:inputText id="fundCurrency" value="#{fundIdentificationPageBean.fundCurrency}" required="true"
+						requiredMessage="Para Birimini Giriniz" style="width: 300px;box-shadow: 0 2px 4px 0.1rem rgba(0, 0, 0, 0.1), 0 3px 10px 0.1rem rgba(0, 0, 0, 0.1);" />
+							
+							</p:panelGrid>
+				
+						</p:panelGrid>
+					<f:facet name="footer">
+						<div style="display: flex; justify-content: center;">
+								<p:commandButton value="kaydet" action="#{fundIdentificationPageBean.fundIdentSave}" style="width: 120px" update="yeniKayitPanel" process="@form" icon="fa fa-recycle">
+    							<p:ajax update="yeniKayitPanel" process="@form" />
+								</p:commandButton>
+								<div style="width: 50px;"></div>
+							<p:commandButton value="temizle" action="#{fundIdentificationPageBean.fundIdentClean}" style="width: 120px" update="yeniKayitPanel" process="@form" icon="fa fa-recycle"/>
+						</div>
+					</f:facet>
+					</p:panel>
+				</div>
+           </p:tab>
+        </p:accordionPanel>
+            
+            <!--Açılır Panel: Listele  --> 
+            <p:accordionPanel multiple="false" styleClass="accordion-panel">
+                <p:tab title="Listele">
+                
+           		<div style="display: flex; justify-content: center;">     
+						<p:commandButton value="yenile" actionListener="#{fundIdentificationPageBean.listFundsIndent}" style="width: 120px; margin-bottom: 20px;" update="fundIdent" process="@this" icon="fa fa-recycle"/>
+		   		</div>
+		   		
+				<p:dataTable id="fundIdent" var="veri" value="#{fundIdentificationPageBean.fundIdent}" paginator="true" rows="5" paginatorPosition="bottom" widgetVar="fundIdentTable"
+                     emptyMessage="No fund found with given criteria">
+                    
+                     <p:column headerText="Fon Kodu"  sortBy="#{veri.fundNo}" filterBy="#{veri.fundNo}" filterMatchMode="contains">
+                 	 	<h:outputText value="#{veri.fundNo}" />
+                 	</p:column>	
+           		 	
+           		 	<p:column headerText="Fon Adı" sortBy="#{veri.fundName}" filterBy="#{veri.fundName}" filterMatchMode="contains">
+                  		<h:outputText value="#{veri.fundName}" />
+                 	</p:column>
+
+                 	<p:column headerText="Fon Türü" sortBy="#{veri.fundType}" filterBy="#{veri.fundType}" filterMatchMode="contains">
+                  	 	<h:outputText value="#{veri.fundType}" />
+                   	</p:column> 
+                   	
+                   	<p:column headerText="Para Birimi" sortBy="#{veri.currency}" filterBy="#{veri.currency}" filterMatchMode="contains">
+                  	 	<h:outputText value="#{veri.currency}" />
+                   	</p:column> 
+                 
+                 </p:dataTable>
+                </p:tab> 
+            </p:accordionPanel>
+        </div>
+    </h:form>
+    </div>
+    </ui:define> 
+</ui:composition>

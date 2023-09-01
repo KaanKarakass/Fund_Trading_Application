@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       
+    <bean name="loginPageBean" class="com.eureka.spring.LoginPageBean" />
+    <bean name="customerPageBean" class="com.eureka.spring.CustomerPageBean" />
+	<bean name="fundPricePageBean" class="com.eureka.spring.FundPricePageBean" />
+	<bean name="fundIdentificationPageBean" class="com.eureka.spring.FundIdentificationPageBean" />
+	<bean name="fundTradingPageBean" class="com.eureka.spring.FundTradingPageBean" />
+	<bean name="provisionPageBean" class="com.eureka.spring.ProvisionPageBean" />
+
+</beans>
